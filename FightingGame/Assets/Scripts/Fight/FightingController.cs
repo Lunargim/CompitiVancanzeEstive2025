@@ -32,7 +32,8 @@ public class FightingController : MonoBehaviour
             _moveClockWise = true;
             ExecuteRotationMovement();
 
-        }else if (Input.GetKey(KeyCode.S))
+        }
+        else if (Input.GetKey(KeyCode.S))
         {
             _moveClockWise = false;
             ExecuteRotationMovement();
@@ -70,52 +71,16 @@ public class FightingController : MonoBehaviour
     {
         _direction = _moveClockWise ? -1f : 1f;
         _angle += Time.deltaTime * _direction * speed;
-        float x= enemyPos.position.x + Mathf.Cos(_angle) * radius;
+        float x = enemyPos.position.x + Mathf.Cos(_angle) * radius;
         float z = enemyPos.position.z + Mathf.Sin(_angle) * radius;
 
         this.transform.position = new Vector3(x, 0f, z);
-
-
-        //float horizontalInput = Input.GetAxis("Horizontal");
-        //verticalInput = Input.GetAxis("Vertical");
-
-        //Vector3 movement = new Vector3(-verticalInput, 0f, horizontalInput);
-
-        /*if (Input.GetKey(KeyCode.W))
-        {
-            _playerX = enemyPos.position.x + Mathf.Cos(angle) * radius;
-            _playerZ = enemyPos.position.z + Mathf.Sin(angle) * radius;
-
-            _angle += speed * Time.deltaTime;
-
-            transform.position = new Vector3(_playerX, 0, _playerZ);
-
-            if(angle>= 360)
-            {
-                angle = 180;
-            }
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            _playerX = enemyPos.position.x - Mathf.Cos(angle) * radius;
-            _playerZ = enemyPos.position.z - Mathf.Sin(angle) * radius;
-
-            angle += speed * Time.deltaTime;
-
-            transform.position = new Vector3(_playerX, 0, _playerZ);
-
-            if (angle <= 0)
-            {
-                angle = 180;
-            }
-        }*/
 
     }
 
     public void ExecuteHorizontalMovement()
     {
-        radius  = Mathf.Clamp(radius, 2f, _maxRadius-1);
+        radius = Mathf.Clamp(radius, 2f, _maxRadius - 1);
         float radiusValue = _moveTowards ? -0.2f : 0.2f;
         radius += radiusValue;
 
@@ -128,5 +93,30 @@ public class FightingController : MonoBehaviour
         this.transform.position = new Vector3 (this.transform.position.x + horizontal * _direction * speed, 0f, 0f);
         */
     }
+
+    //CONTROLLA QUESTO TRANSFORM.TURNAROUND __________________________
+
+/*using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerRotation : MonoBehaviour {
+
+public Transform Enemy;
+private float _horizontalMove;
+private float _verticalMove;
+private Vector3 _playerPosition;
+[SerializeField] private float _radius;
+
+
+private void Update()
+{
+    _playerPosition = _radius * Vector3.Normalize(  this.transform.position - Enemy.position ) + Enemy.position;       
+    _horizontalMove = Input.GetAxisRaw("Horizontal");
+    this.transform.position = _playerPosition;
+    transform.RotateAround(Enemy.position,Vector3.up,_horizontalMove);
+
+}
+}*/
 
 }
