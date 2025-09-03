@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class FightingController : MonoBehaviour
 {
@@ -6,20 +7,13 @@ public class FightingController : MonoBehaviour
     private float _horizontalMove;
     private float _verticalMove;
     private Vector3 _playerPosition;
-    private Vector3 _playerPositionX;
     [SerializeField] private float _radius;
     [SerializeField] private float _speed;
-
-    private float _maxRadius;
-
-    private bool _moveTowards = true;
-
-    private float x;
-
+    private Animator _animator;
 
     public void Start()
     {
-        _maxRadius = _radius;
+        _animator = GetComponent<Animator>();
     }
 
     public void Update()
@@ -28,7 +22,6 @@ public class FightingController : MonoBehaviour
 
         MoveVertical();
         MoveHorizontal();
-
     }
     private void MoveVertical()
     {
@@ -38,11 +31,19 @@ public class FightingController : MonoBehaviour
         {
             this.transform.position = _playerPosition;
             transform.RotateAround(enemyPos.position, Vector3.up, _verticalMove);
+            _animator.SetBool("Walk Side", true);
         }
-        else if (Input.GetKey(KeyCode.W))
+
+        if (Input.GetKey(KeyCode.W))
         {
             this.transform.position = _playerPosition;
             transform.RotateAround(enemyPos.position, Vector3.down, -_verticalMove);
+            _animator.SetBool("Walk Side", true);
+        }
+
+        if(!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        {
+            _animator.SetBool("Walk Side", false);
         }
     }
 
@@ -51,42 +52,29 @@ public class FightingController : MonoBehaviour
         _horizontalMove = Input.GetAxisRaw("Horizontal");
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector3.forward * _speed * _horizontalMove);
+            if (_radius > 1.1) 
+            {
+                _radius -= _speed;
+                transform.Translate(Vector3.forward * _speed * _horizontalMove);
+                _animator.SetBool("Walk Forward", true);
+            }
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(Vector3.back * _speed * -_horizontalMove);
+            if(_radius < 8)
+            {
+                _radius += _speed;
+                transform.Translate(Vector3.back * _speed * -_horizontalMove);
+                _animator.SetBool("Walk Backward", true);
+            }
         }
 
-
+        if(!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+        {
+            _animator.SetBool("Walk Forward", false);
+            _animator.SetBool("Walk Backward", false);
+        }
     }
-
-
-    /*     void ExecuteRotationMovement()
-    {
-        _direction = _moveClockWise ? -1f : 1f;
-        _angle += Time.deltaTime * _direction * speed;
-        float x = enemyPos.position.x + Mathf.Cos(_angle) * radius;
-        float z = enemyPos.position.z + Mathf.Sin(_angle) * radius;
-
-        this.transform.position = new Vector3(x, 0f, z);
-
-    }
-
-    public void ExecuteHorizontalMovement()
-    {
-        _radius = Mathf.Clamp(radius, 2f, _maxRadius - 1);
-        float radiusValue = _moveTowards ? -0.2f : 0.2f;
-        radius += radiusValue;
-
-        x = this.transform.position.x + Mathf.Cos(_angle) * radius;
-
-        this.transform.position = new Vector3(x, 0f, 0f);
-        /*_direction = _moveTowards ? 1f : -1f;
-        float horizontal = Input.GetAxis("Horizontal");
-
-        this.transform.position = new Vector3 (this.transform.position.x + horizontal * _direction * speed, 0f, 0f);
-        */
 
 
 }
