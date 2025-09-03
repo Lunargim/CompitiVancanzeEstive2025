@@ -1609,6 +1609,7 @@ GameObject:
   - component: {fileID: 1238763649}
   - component: {fileID: 1238763648}
   - component: {fileID: 1238763646}
+  - component: {fileID: 1238763650}
   m_Layer: 0
   m_Name: Berserker
   m_TagString: Player
@@ -1630,7 +1631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPos: {fileID: 1902628160}
   _radius: 8
-  _speed: 0.5
+  _speed: 0.1
 --- !u!95 &1238763648
 Animator:
   serializedVersion: 7
@@ -1644,7 +1645,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 8f2f5123e7b753b44ad9b59d61095cb5, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -1671,6 +1672,29 @@ Transform:
   - {fileID: 1404778121}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!136 &1238763650
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238763645}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 3.1485958
+  m_Direction: 1
+  m_Center: {x: -0, y: 1.0742979, z: 0}
 --- !u!1 &1305834959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2508,7 +2532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1902628160}
   - component: {fileID: 1902628159}
-  - component: {fileID: 1902628158}
+  - component: {fileID: 1902628161}
   m_Layer: 0
   m_Name: MapCenter
   m_TagString: Untagged
@@ -2516,27 +2540,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1902628158
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902628157}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1902628159
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2554,12 +2557,33 @@ Transform:
   m_GameObject: {fileID: 1902628157}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0.12}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 0.9470779, y: 1.3860145, z: 0.9005038}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 765151804}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1902628161
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902628157}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1936030083
 GameObject:
   m_ObjectHideFlags: 0
