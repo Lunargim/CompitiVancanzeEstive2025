@@ -1609,7 +1609,9 @@ GameObject:
   - component: {fileID: 1238763649}
   - component: {fileID: 1238763648}
   - component: {fileID: 1238763646}
+  - component: {fileID: 1238763651}
   - component: {fileID: 1238763650}
+  - component: {fileID: 1238763653}
   m_Layer: 0
   m_Name: Berserker
   m_TagString: Player
@@ -1695,6 +1697,37 @@ CapsuleCollider:
   m_Height: 3.1485958
   m_Direction: 1
   m_Center: {x: -0, y: 1.0742979, z: 0}
+--- !u!114 &1238763651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238763645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d7cc2120beb2d418b201d22c32a2c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackCoolDown: 0.5
+  _heavyAttackChargeTime: 1
+  attackAnimations:
+  - Punch
+  - Charge Punch
+  - Block
+--- !u!114 &1238763653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238763645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47eabb2163397f040a52924ec0f3fef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heavyAttackChargeTime: 2
 --- !u!1 &1305834959
 GameObject:
   m_ObjectHideFlags: 0
