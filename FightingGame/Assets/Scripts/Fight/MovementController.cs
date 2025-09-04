@@ -66,7 +66,7 @@ public class MovementController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            if(_radius < 8)
+            if(_radius < 12)
             {
                 _radius += _speed;
                 transform.Translate(Vector3.back * _speed * -_horizontalMove);
