@@ -11,6 +11,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _speed;
     private Animator _animator;
 
+    private bool _blockMovement = false;
+
     public void Start()
     {
         _animator = GetComponent<Animator>();
@@ -20,8 +22,11 @@ public class MovementController : MonoBehaviour
     {
         this.gameObject.transform.LookAt(enemyPos);
 
-        MoveVertical();
-        MoveHorizontal();
+        if (!_blockMovement)
+        {
+            MoveVertical();
+            MoveHorizontal();
+        }
     }
     private void MoveVertical()
     {
@@ -76,6 +81,20 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    public void BlockMovement()
+    {
+        _blockMovement = !_blockMovement;
+    }
+
+    public void OnEnable()
+    {
+        BlockMovementEvent.OnAttack += BlockMovement;
+    }
+
+    public void OnDisable()
+    {
+        BlockMovementEvent.OnAttack -= BlockMovement;
+    }
 
 }
 

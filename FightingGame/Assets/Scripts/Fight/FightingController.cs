@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FightingController : MonoBehaviour
@@ -6,17 +7,14 @@ public class FightingController : MonoBehaviour
     [SerializeField] private float _heavyAttackChargeTime = 10f;
     private int _normalAttackDamage = 1;
     private int _heavyAttackDamage = 2;
-    public string[] attackAnimations = {"Punch","back kick","Block"};
+    public string[] attackAnimations = {"Punch","Heavy Kick","Block"};
     private float _lastTimeAttack;
 
     private Animator _animator;
 
-    private float timer;
-
     public void Start()
     {
         _animator = GetComponent<Animator>();
-        timer = _heavyAttackChargeTime;
     }
     public void Update()
     {
@@ -51,7 +49,7 @@ public class FightingController : MonoBehaviour
                     damage = _heavyAttackDamage;
                     break;
             }
-          
+
             _lastTimeAttack = Time.deltaTime;
         }
         else
