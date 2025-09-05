@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FightingController : MonoBehaviour
@@ -8,6 +10,8 @@ public class FightingController : MonoBehaviour
     private int _heavyAttackDamage = 2;
     public string[] attackAnimations = {"Punch","Heavy Kick","Block"};
     private float _lastTimeAttack;
+    private OpponentAI _opponentAI;
+    public int attackType;
 
     private Animator _animator;
 
@@ -35,6 +39,7 @@ public class FightingController : MonoBehaviour
     }
     void PerformAttack(int attackIndex)
     {
+        attackType = attackIndex;
         if (_lastTimeAttack > _attackCoolDown)
         {
             _animator.Play(attackAnimations[attackIndex]);
@@ -55,9 +60,36 @@ public class FightingController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        int takeDamage = 0;
+        switch (_opponentAI._randomNumber)
+        {
+            case 1:
+                takeDamage = _normalAttackDamage;
+                break;
+            case 2:
+                takeDamage = _heavyAttackDamage;
+                break;
+            default:
+                takeDamage = 0;
+                break;
+        }
+        StartCoroutine(PlayDamageAnimator(takeDamage));
+    }
+
     void PerformBlock(int attackIndex)
     {
         _animator.Play(attackAnimations[attackIndex]);
+    }
+
+    public IEnumerator PlayDamageAnimator(int takeDamage)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        //play hit sound;
+        //
+        _animator.Play("Take Damage");
     }
 
 }

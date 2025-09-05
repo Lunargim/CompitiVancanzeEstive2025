@@ -1,16 +1,11 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class OpponentAI : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] public GameObject _player;
-    public Transform[] _playerPos;
-    private float _horizontalMove;
-    private float _verticalMove;
     [SerializeField] private float _speed;
-    [SerializeField] private float _radiusMax = 12f;
-    [SerializeField] private float _radiusMin = 1.5f;
 
     private bool _blockMovement = false;
 
@@ -20,12 +15,11 @@ public class OpponentAI : MonoBehaviour
     private int _heavyAttackDamage = 2;
     public string[] attackAnimations = { "Punch", "Heavy Kick", "Block" };
     private float _lastTimeAttack = 0;
-    private int _attackCount = 0;
-    private int _randomNumber;
+    public int _randomNumber;
     [SerializeField] public float attackRadius = 2f;
-    public MovementController[] movementController;
 
     public Animator animator;
+    private FightingController _fightingController;
 
     private void Awake()
     {
@@ -85,6 +79,24 @@ public class OpponentAI : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        int takeDamage = 0;
+        switch (_fightingController.attackType)
+        {
+            case 1:
+                takeDamage = _normalAttackDamage;
+                break;
+            case 2:
+                takeDamage = _heavyAttackDamage;
+                break;
+            default:
+                takeDamage = 0;
+                break;
+        }
+        StartCoroutine(PlayDamageAnimator(takeDamage));
+    }
+
     void PerformBlock(int attackIndex)
     {
         animator.Play(attackAnimations[attackIndex]);
@@ -93,6 +105,15 @@ public class OpponentAI : MonoBehaviour
     public void BlockMovement()
     {
         _blockMovement = !_blockMovement;
+    }
+
+    public IEnumerator PlayDamageAnimator(int takeDamage)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        //play hit sound;
+        //
+        animator.Play("Take Damage");
     }
 
     public void OnEnable()
