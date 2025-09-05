@@ -17,6 +17,7 @@ public class FightingController : MonoBehaviour
     }
     public void Update()
     {
+       _lastTimeAttack += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.J))
         {
             PerformAttack(0);
@@ -34,7 +35,7 @@ public class FightingController : MonoBehaviour
     }
     void PerformAttack(int attackIndex)
     {
-        if (Time.deltaTime - _lastTimeAttack > _attackCoolDown)
+        if (_lastTimeAttack > _attackCoolDown)
         {
             _animator.Play(attackAnimations[attackIndex]);
             int damage = 0;
@@ -49,12 +50,9 @@ public class FightingController : MonoBehaviour
                     break;
             }
 
-            _lastTimeAttack = Time.deltaTime;
-        }
-        else
-        {
             _lastTimeAttack = 0;
         }
+
     }
 
     void PerformBlock(int attackIndex)
