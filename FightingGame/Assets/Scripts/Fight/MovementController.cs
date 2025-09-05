@@ -7,8 +7,10 @@ public class MovementController : MonoBehaviour
     private float _horizontalMove;
     private float _verticalMove;
     private Vector3 _playerPosition;
-    [SerializeField] private float _radius;
+    [SerializeField] public static float _radius = 12;
     [SerializeField] private float _speed;
+    [SerializeField] private float _radiusMax = 12f;
+    [SerializeField] private float _radiusMin = 1.1f;
     private Animator _animator;
 
     private bool _blockMovement = false;
@@ -57,7 +59,7 @@ public class MovementController : MonoBehaviour
         _horizontalMove = Input.GetAxisRaw("Horizontal");
         if (Input.GetKey(KeyCode.D))
         {
-            if (_radius > 1.1) 
+            if (_radius > _radiusMin) 
             {
                 _radius -= _speed;
                 transform.Translate(Vector3.forward * _speed * _horizontalMove);
@@ -66,7 +68,7 @@ public class MovementController : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            if(_radius < 12)
+            if(_radius < _radiusMax)
             {
                 _radius += _speed;
                 transform.Translate(Vector3.back * _speed * -_horizontalMove);

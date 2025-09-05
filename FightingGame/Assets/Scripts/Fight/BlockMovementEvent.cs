@@ -3,17 +3,19 @@ using UnityEngine;
 
 public class BlockMovementEvent : MonoBehaviour
 {
-    private Animator _animator;
-
     public static event Action OnAttack;
-
-    void Start()
-    {
-        _animator = GetComponent<Animator>();
-    }
+    public static event Action OnAttackEnemy;
 
     public void UnblockMovement()
     {
-        OnAttack?.Invoke();
+        if(this.tag == "Player")
+        {
+            OnAttack?.Invoke();
+        }
+        else
+        {
+            OnAttackEnemy?.Invoke();
+        }
+
     }
 }
