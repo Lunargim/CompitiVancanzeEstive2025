@@ -513,7 +513,7 @@ GameObject:
   - component: {fileID: 145293316}
   m_Layer: 0
   m_Name: Map
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 200260190}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -615,7 +615,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 345635900}
   m_Layer: 0
   m_Name: B_R_Foot
-  m_TagString: Untagged
+  m_TagString: Kick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -903,8 +903,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.13000494
-  m_Center: {x: 0.00000067550155, y: -0.000001125295, z: 0.01}
+  m_Radius: 0.29246432
+  m_Center: {x: -0.02480426, y: 0.0846719, z: 0.009999998}
 --- !u!1 &346895838
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,8 +918,9 @@ GameObject:
   - component: {fileID: 346895840}
   - component: {fileID: 346895839}
   - component: {fileID: 346895843}
+  - component: {fileID: 346895844}
   m_Layer: 0
-  m_Name: Heavy
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -950,17 +951,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1238763645}
-  _playerPos: []
   _speed: 0.05
-  _radiusMax: 12
-  _radiusMin: 1.5
   _attackCoolDown: 2
   attackAnimations:
   - Punch
   - Heavy Kick
   - Block
-  attackRadius: 2
-  movementController: []
+  _randomNumber: 0
+  attackRadius: 1.5
   animator: {fileID: 346895841}
 --- !u!95 &346895841
 Animator:
@@ -1020,10 +1018,37 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2.1037612
+  m_Radius: 0.54196066
+  m_Height: 1.4970222
   m_Direction: 1
-  m_Center: {x: 0, y: 1.0749662, z: 0}
+  m_Center: {x: -1.5220769e-16, y: 1.4576387, z: 0.041960657}
+--- !u!54 &346895844
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346895838}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &356262823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,7 +1093,7 @@ GameObject:
   - component: {fileID: 368238793}
   m_Layer: 0
   m_Name: PlaneBoundary
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1104,7 +1129,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 10, y: 2.220446e-16, z: 9.999999}
@@ -1345,7 +1370,7 @@ GameObject:
   - component: {fileID: 410352121}
   m_Layer: 0
   m_Name: B_R_Foot
-  m_TagString: Untagged
+  m_TagString: Kick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2045,7 +2070,7 @@ GameObject:
   - component: {fileID: 801519792}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2081,7 +2106,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -2898,7 +2923,7 @@ GameObject:
   - component: {fileID: 1238763652}
   - component: {fileID: 1238763654}
   m_Layer: 0
-  m_Name: Berserker
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2920,6 +2945,7 @@ MonoBehaviour:
   _speed: 0.1
   _radiusMax: 12
   _radiusMin: 1.1
+  _blockMovement: 0
 --- !u!95 &1238763648
 Animator:
   serializedVersion: 7
@@ -2979,10 +3005,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5305314
-  m_Height: 2.3104677
+  m_Radius: 0.4647481
+  m_Height: 2.127307
   m_Direction: 1
-  m_Center: {x: 0.0021123886, y: 1.1837382, z: -0.028419018}
+  m_Center: {x: 0.003745705, y: 1.3572023, z: 0.18245664}
 --- !u!114 &1238763651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3053,8 +3079,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -3714,7 +3740,7 @@ GameObject:
   - component: {fileID: 1581406108}
   m_Layer: 0
   m_Name: B_R_Hand
-  m_TagString: Untagged
+  m_TagString: Punch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3994,7 +4020,7 @@ GameObject:
   - component: {fileID: 1677402247}
   m_Layer: 0
   m_Name: Boundaries
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4330,7 +4356,7 @@ GameObject:
   - component: {fileID: 1812213423}
   m_Layer: 0
   m_Name: B_R_Hand
-  m_TagString: Untagged
+  m_TagString: Punch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4848,7 +4874,7 @@ GameObject:
   - component: {fileID: 2048901870}
   m_Layer: 0
   m_Name: PolygonGrid (3)
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4955,7 +4981,7 @@ GameObject:
   - component: {fileID: 2064760276}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4991,7 +5017,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -5050,7 +5076,7 @@ GameObject:
   - component: {fileID: 2077492565}
   m_Layer: 0
   m_Name: PolygonGrid (2)
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5157,7 +5183,7 @@ GameObject:
   - component: {fileID: 2094198129}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5193,7 +5219,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -5252,7 +5278,7 @@ GameObject:
   - component: {fileID: 65453397576964808}
   m_Layer: 0
   m_Name: PolygonGrid
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5268,7 +5294,7 @@ GameObject:
   - component: {fileID: 4872713826804018}
   m_Layer: 0
   m_Name: TrainingStage_Background
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5448,7 +5474,7 @@ GameObject:
   - component: {fileID: 8597700140786144038}
   m_Layer: 0
   m_Name: PolygonGrid (1)
-  m_TagString: Untagged
+  m_TagString: Boundaries
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

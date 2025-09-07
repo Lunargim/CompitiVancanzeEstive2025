@@ -10,10 +10,11 @@ public class FightingController : MonoBehaviour
     private int _heavyAttackDamage = 2;
     public string[] attackAnimations = {"Punch","Heavy Kick","Block"};
     private float _lastTimeAttack;
-    private OpponentAI _opponentAI;
-    public int attackType;
+    public static int attackTypePlayer;
 
     private Animator _animator;
+
+    public static event Action OnPlayerTakeDamage;
 
     public void Start()
     {
@@ -39,7 +40,7 @@ public class FightingController : MonoBehaviour
     }
     void PerformAttack(int attackIndex)
     {
-        attackType = attackIndex;
+        attackTypePlayer = attackIndex;
         if (_lastTimeAttack > _attackCoolDown)
         {
             _animator.Play(attackAnimations[attackIndex]);
@@ -57,39 +58,42 @@ public class FightingController : MonoBehaviour
 
             _lastTimeAttack = 0;
         }
-
+        OnPlayerTakeDamage?.Invoke();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        int takeDamage = 0;
-        switch (_opponentAI._randomNumber)
+        if(other.tag == "Punch" || other.tag == "Kick") //other.tag != "Player" && other.tag != "Boundaries" && other.tag != "Enemy"
         {
-            case 1:
-                takeDamage = _normalAttackDamage;
-                break;
-            case 2:
-                takeDamage = _heavyAttackDamage;
-                break;
-            default:
-                takeDamage = 0;
-                break;
+            int takeDamage = 0;
+            switch (OpponentAI.damageTypeEnemy)
+            {
+                case 1:
+                    takeDamage = _normalAttackDamage;
+                    break;
+                case 2:
+                    takeDamage = _heavyAttackDamage;
+                    break;
+                default:
+                    takeDamage = 0;
+                    break;
+            }
+            StartCoroutine(TakeDamage(takeDamage));
         }
-        StartCoroutine(PlayDamageAnimator(takeDamage));
     }
-
     void PerformBlock(int attackIndex)
     {
         _animator.Play(attackAnimations[attackIndex]);
     }
 
-    public IEnumerator PlayDamageAnimator(int takeDamage)
+    public IEnumerator TakeDamage(int takeDamage)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         //play hit sound;
         //
         _animator.Play("Take Damage");
+        OnPlayerTakeDamage?.Invoke();
     }
 
 }

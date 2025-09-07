@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class OpponentAI : MonoBehaviour
@@ -19,7 +20,7 @@ public class OpponentAI : MonoBehaviour
     [SerializeField] public float attackRadius = 2f;
 
     public Animator animator;
-    private FightingController _fightingController;
+    public static int damageTypeEnemy;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class OpponentAI : MonoBehaviour
     void CreateRandomNumber()
     {
         _randomNumber = Random.Range(0, attackAnimations.Length);
+        damageTypeEnemy = _randomNumber;
     }
 
     void PerformAttack(int attackIndex)
@@ -81,20 +83,24 @@ public class OpponentAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        int takeDamage = 0;
-        switch (_fightingController.attackType)
+        if (other.tag == "Punch" || other.tag == "Kick")
         {
-            case 1:
-                takeDamage = _normalAttackDamage;
-                break;
-            case 2:
-                takeDamage = _heavyAttackDamage;
-                break;
-            default:
-                takeDamage = 0;
-                break;
+            Debug.Log("AAAAAAAAAAAA");
+            int takeDamage = 0;
+            switch (FightingController.attackTypePlayer)
+            {
+                case 1:
+                    takeDamage = _normalAttackDamage;
+                    break;
+                case 2:
+                    takeDamage = _heavyAttackDamage;
+                    break;
+                default:
+                    takeDamage = 0;
+                    break;
+            }
+            StartCoroutine(TakeDamage(takeDamage));
         }
-        StartCoroutine(PlayDamageAnimator(takeDamage));
     }
 
     void PerformBlock(int attackIndex)
@@ -106,14 +112,19 @@ public class OpponentAI : MonoBehaviour
     {
         _blockMovement = !_blockMovement;
     }
-
-    public IEnumerator PlayDamageAnimator(int takeDamage)
+    public void ResetBlockMovement()
     {
-        yield return new WaitForSeconds(0.5f);
+        _blockMovement = false;
+    }
+
+    public IEnumerator TakeDamage(int takeDamage)
+    {
+        yield return new WaitForSeconds(0.1f);
 
         //play hit sound;
         //
         animator.Play("Take Damage");
+        ResetBlockMovement();
     }
 
     public void OnEnable()

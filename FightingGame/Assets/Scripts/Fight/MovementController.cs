@@ -13,7 +13,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _radiusMin = 1.1f;
     private Animator _animator;
 
-    private bool _blockMovement = false;
+    public bool _blockMovement = false;
 
     public void Start()
     {
@@ -75,7 +75,6 @@ public class MovementController : MonoBehaviour
                 _animator.SetBool("Walk Backward", true);
             }
         }
-
         if(!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
         {
             _animator.SetBool("Walk Forward", false);
@@ -88,14 +87,21 @@ public class MovementController : MonoBehaviour
         _blockMovement = !_blockMovement;
     }
 
+    public void ResetBlockMovement()
+    {
+        _blockMovement = false;
+    }
+
     public void OnEnable()
     {
         BlockMovementEvent.OnAttack += BlockMovement;
+        FightingController.OnPlayerTakeDamage += ResetBlockMovement;
     }
 
     public void OnDisable()
     {
         BlockMovementEvent.OnAttack -= BlockMovement;
+        FightingController.OnPlayerTakeDamage -= ResetBlockMovement;
     }
 
 }
