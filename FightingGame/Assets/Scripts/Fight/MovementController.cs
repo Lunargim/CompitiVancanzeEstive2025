@@ -84,7 +84,7 @@ public class MovementController : MonoBehaviour
 
     public void BlockMovement()
     {
-        _blockMovement = !_blockMovement;
+        _blockMovement = true;
     }
 
     public void ResetBlockMovement()
@@ -95,12 +95,14 @@ public class MovementController : MonoBehaviour
     public void OnEnable()
     {
         BlockMovementEvent.OnAttack += BlockMovement;
+        BlockMovementEvent.OnEndAttack += ResetBlockMovement;
         FightingController.OnPlayerTakeDamage += ResetBlockMovement;
     }
 
     public void OnDisable()
     {
         BlockMovementEvent.OnAttack -= BlockMovement;
+        BlockMovementEvent.OnEndAttack -= ResetBlockMovement;
         FightingController.OnPlayerTakeDamage -= ResetBlockMovement;
     }
 

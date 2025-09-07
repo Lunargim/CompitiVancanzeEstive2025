@@ -110,7 +110,7 @@ public class OpponentAI : MonoBehaviour
 
     public void BlockMovement()
     {
-        _blockMovement = !_blockMovement;
+        _blockMovement = true;
     }
     public void ResetBlockMovement()
     {
@@ -130,11 +130,13 @@ public class OpponentAI : MonoBehaviour
     public void OnEnable()
     {
         BlockMovementEvent.OnAttackEnemy += BlockMovement;
+        BlockMovementEvent.OnEndEnemyAttack += ResetBlockMovement;
     }
 
     public void OnDisable()
     {
         BlockMovementEvent.OnAttackEnemy -= BlockMovement;
+        BlockMovementEvent.OnEndEnemyAttack -= ResetBlockMovement;
     }
 
 
