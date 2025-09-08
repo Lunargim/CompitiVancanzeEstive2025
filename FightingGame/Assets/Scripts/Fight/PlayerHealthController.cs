@@ -14,10 +14,12 @@ public class PlayerHealthController : MonoBehaviour
     [Header("Health")]
     public const int PLAYERMAXHEALTH = 10;
     public int playerHealth;
+    public HealthBar healthBar;
 
     public void Start()
     {
         playerHealth = PLAYERMAXHEALTH;
+        healthBar.GiveFullHealth(playerHealth);
         _animator = GetComponent<Animator>();
     }
 
@@ -31,6 +33,7 @@ public class PlayerHealthController : MonoBehaviour
         punchCollider.enabled = false;
         kickCollider.enabled = false;
         playerHealth -= takeDamage;
+        healthBar.SetHealth(playerHealth);
         _animator.Play("Take Damage");
         OnPlayerTakeDamage?.Invoke();
         yield return new WaitForSeconds(0.7f);

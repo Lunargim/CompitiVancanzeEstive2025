@@ -22,6 +22,7 @@ public class OpponentAI : MonoBehaviour
     [Header("Health")]
     public const int ENEMYMAXHEALTH = 10;
     public int enemyHealth;
+    public HealthBar enemyHealthBar;
 
     public Animator animator;
     public static int damageTypeEnemy;
@@ -31,6 +32,11 @@ public class OpponentAI : MonoBehaviour
         enemyHealth = ENEMYMAXHEALTH;
         animator = GetComponent<Animator>();
         CreateRandomNumber();
+    }
+
+    private void Start()
+    {
+        enemyHealthBar.GiveFullHealth(enemyHealth);
     }
 
     private void Update()
@@ -124,6 +130,7 @@ public class OpponentAI : MonoBehaviour
 
         //play hit sound;
         enemyHealth -= takeDamage;
+        enemyHealthBar.SetHealth(enemyHealth);
         animator.Play("Take Damage");
         ResetBlockMovement();
 
