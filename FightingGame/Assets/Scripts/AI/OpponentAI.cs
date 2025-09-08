@@ -19,11 +19,16 @@ public class OpponentAI : MonoBehaviour
     public int _randomNumber;
     [SerializeField] public float attackRadius = 2f;
 
+    [Header("Health")]
+    public const int ENEMYMAXHEALTH = 10;
+    public int enemyHealth;
+
     public Animator animator;
     public static int damageTypeEnemy;
 
     private void Awake()
     {
+        enemyHealth = ENEMYMAXHEALTH;
         animator = GetComponent<Animator>();
         CreateRandomNumber();
     }
@@ -85,18 +90,14 @@ public class OpponentAI : MonoBehaviour
     {
         if (other.tag == "Punch" || other.tag == "Kick")
         {
-            Debug.Log("AAAAAAAAAAAA");
             int takeDamage = 0;
             switch (FightingController.attackTypePlayer)
             {
-                case 1:
+                case 0:
                     takeDamage = _normalAttackDamage;
                     break;
-                case 2:
+                case 1:
                     takeDamage = _heavyAttackDamage;
-                    break;
-                default:
-                    takeDamage = 0;
                     break;
             }
             StartCoroutine(TakeDamage(takeDamage));
@@ -122,9 +123,18 @@ public class OpponentAI : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         //play hit sound;
-        //
+        enemyHealth -= takeDamage;
         animator.Play("Take Damage");
         ResetBlockMovement();
+
+        if (enemyHealth < 0)
+        {
+            Die();
+        }
+    }
+    public void Die()
+    {
+        Debug.Log("enemy dead");
     }
 
     public void OnEnable()

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class FightingController : MonoBehaviour
 {
+    [Header("Fighting")]
     [SerializeField] private float _attackCoolDown = 0.5f;
     private int _normalAttackDamage = 1;
     private int _heavyAttackDamage = 2;
@@ -15,6 +16,8 @@ public class FightingController : MonoBehaviour
     private Animator _animator;
 
     public static event Action OnPlayerTakeDamage;
+    public static event Action<int> OnPlayerLosingHealth;
+
 
     public void Start()
     {
@@ -63,37 +66,24 @@ public class FightingController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Punch" || other.tag == "Kick") //other.tag != "Player" && other.tag != "Boundaries" && other.tag != "Enemy"
+        if(other.tag == "Punch" || other.tag == "Kick")
         {
             int takeDamage = 0;
             switch (OpponentAI.damageTypeEnemy)
             {
-                case 1:
+                case 0:
                     takeDamage = _normalAttackDamage;
                     break;
-                case 2:
+                case 1:
                     takeDamage = _heavyAttackDamage;
                     break;
-                default:
-                    takeDamage = 0;
-                    break;
             }
-            StartCoroutine(TakeDamage(takeDamage));
+            OnPlayerLosingHealth?.Invoke(takeDamage);
         }
     }
     void PerformBlock(int attackIndex)
     {
         _animator.Play(attackAnimations[attackIndex]);
-    }
-
-    public IEnumerator TakeDamage(int takeDamage)
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        //play hit sound;
-        //
-        _animator.Play("Take Damage");
-        OnPlayerTakeDamage?.Invoke();
     }
 
 }

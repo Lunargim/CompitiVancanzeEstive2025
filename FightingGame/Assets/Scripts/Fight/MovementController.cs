@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 
 public class MovementController : MonoBehaviour
 {
+    [Header("Movement")]
     public Transform enemyPos;
     private float _horizontalMove;
     private float _verticalMove;
