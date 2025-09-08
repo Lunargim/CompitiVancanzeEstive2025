@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FightingController : MonoBehaviour
@@ -14,76 +13,141 @@ public class FightingController : MonoBehaviour
     public static int attackTypePlayer;
 
     private Animator _animator;
+    private bool _isBlocking;
+    private int _punchesBlocked = 0;
+    private bool _isStunned = false;
 
     public static event Action OnPlayerTakeDamage;
     public static event Action<int> OnPlayerLosingHealth;
 
+    public PlayerStaminaController playerStaminaController;
+
+    [SerializeField] public Collider blockingCollider;
+    [SerializeField] public Collider punchCollider;
+    [SerializeField] public Collider kickCollider;
+
 
     public void Start()
     {
+        _isBlocking = false;
         _animator = GetComponent<Animator>();
+        blockingCollider.enabled = false;
+        punchCollider.enabled = false;
+        kickCollider.enabled = false;
+
     }
     public void Update()
     {
        _lastTimeAttack += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.J))
         {
-            PerformAttack(0);
+            StartCoroutine(PerformAttack(0));
         }
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            PerformAttack(1);    
+            StartCoroutine(PerformAttack(1));    
         }
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            PerformBlock(2);
+            StartCoroutine(PerformBlock(2));
         }
     }
-    void PerformAttack(int attackIndex)
+    public IEnumerator PerformAttack(int attackIndex)
     {
-        attackTypePlayer = attackIndex;
-        if (_lastTimeAttack > _attackCoolDown)
+        if (!_isStunned)
         {
-            _animator.Play(attackAnimations[attackIndex]);
-            int damage = 0;
+            attackTypePlayer = attackIndex;
 
-            switch(attackIndex)
+            if (_lastTimeAttack > _attackCoolDown)
             {
-               case 0:
-                    damage = _normalAttackDamage;
-                    break;
-               case 1:
-                    damage = _heavyAttackDamage;
-                    break;
-            }
+                _animator.Play(attackAnimations[attackIndex]);
+                int damage = 0;
 
-            _lastTimeAttack = 0;
-        }
-        OnPlayerTakeDamage?.Invoke();
+                switch (attackIndex)
+                {
+                    case 0:
+                        damage = _normalAttackDamage;
+                        punchCollider.enabled = true;
+                        break;
+                    case 1:
+                        damage = _heavyAttackDamage;
+                        kickCollider.enabled = true;
+                        break;
+                }
+
+                _lastTimeAttack = 0;
+            }
+            OnPlayerTakeDamage?.Invoke();
+            yield return new WaitForSeconds(0.5f);
+        }  
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Punch" || other.tag == "Kick")
         {
-            int takeDamage = 0;
-            switch (OpponentAI.damageTypeEnemy)
+            if (_isBlocking && OpponentAI.damageTypeEnemy == 0)
             {
-                case 0:
-                    takeDamage = _normalAttackDamage;
-                    break;
-                case 1:
-                    takeDamage = _heavyAttackDamage;
-                    break;
+                if(_punchesBlocked == 2)
+                {
+                    _punchesBlocked = 0;
+                }
+
             }
-            OnPlayerLosingHealth?.Invoke(takeDamage);
+            if(_isBlocking && OpponentAI.damageTypeEnemy == 1)
+            {
+                StartStun();
+                playerStaminaController.RemoveStamina();
+            }
+            else
+            {
+                int takeDamage = 0;
+                switch (OpponentAI.damageTypeEnemy)
+                {
+                    case 0:
+                        takeDamage = _normalAttackDamage;
+                        break;
+                    case 1:
+                        takeDamage = _heavyAttackDamage;
+                        break;
+                }
+
+                OnPlayerLosingHealth?.Invoke(takeDamage);
+            }
         }
     }
-    void PerformBlock(int attackIndex)
+    public IEnumerator PerformBlock(int attackIndex)
     {
+        blockingCollider.enabled = true;
+        _isBlocking = true;
         _animator.Play(attackAnimations[attackIndex]);
+        yield return new WaitForSeconds(1f);
+        blockingCollider.enabled = false;
+        _isBlocking = false;
+    }
+
+    public void StartStun()
+    {
+        StartCoroutine(GetStunned());
+    }
+
+    public IEnumerator GetStunned()
+    {
+        _isStunned = true;
+        yield return new WaitForSeconds(2f);
+        _isStunned = false;
+    }
+
+    public void OnEnable()
+    {
+        PlayerStaminaController.OnStaminaZero += StartStun;
+    }
+
+    public void OnDisable()
+    {
+        PlayerStaminaController.OnStaminaZero -= StartStun;
     }
 
 }

@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class MovementController : MonoBehaviour
 {
@@ -93,11 +93,25 @@ public class MovementController : MonoBehaviour
         _blockMovement = false;
     }
 
+    public void StartStunned()
+    {
+        StartCoroutine(GetStunned());
+    }
+
+    public IEnumerator GetStunned()
+    {
+        BlockMovement();
+        //Play stunned animation
+        yield return new WaitForSeconds(2f);
+        ResetBlockMovement();
+    }
+
     public void OnEnable()
     {
         BlockMovementEvent.OnAttack += BlockMovement;
         BlockMovementEvent.OnEndAttack += ResetBlockMovement;
         FightingController.OnPlayerTakeDamage += ResetBlockMovement;
+        PlayerStaminaController.OnStaminaZero += StartStunned;
     }
 
     public void OnDisable()
@@ -105,6 +119,7 @@ public class MovementController : MonoBehaviour
         BlockMovementEvent.OnAttack -= BlockMovement;
         BlockMovementEvent.OnEndAttack -= ResetBlockMovement;
         FightingController.OnPlayerTakeDamage -= ResetBlockMovement;
+        PlayerStaminaController.OnStaminaZero -= StartStunned;
     }
 
 }

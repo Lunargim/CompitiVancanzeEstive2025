@@ -6,10 +6,8 @@ public class PlayerHealthController : MonoBehaviour
 {
     private Animator _animator;
 
-    [SerializeField] public Collider punchCollider;
-    [SerializeField] public Collider kickCollider;
-
     public static event Action OnPlayerTakeDamage;
+    public static event Action OnPlayerBlocking;
 
     [Header("Health")]
     public const int PLAYERMAXHEALTH = 10;
@@ -25,20 +23,16 @@ public class PlayerHealthController : MonoBehaviour
 
     public void StartTakingDamage(int damage)
     {
-        StartCoroutine(TakeDamage(damage));
+       StartCoroutine(TakeDamage(damage)); 
     }
 
     public IEnumerator TakeDamage(int takeDamage)
     {
-        punchCollider.enabled = false;
-        kickCollider.enabled = false;
         playerHealth -= takeDamage;
         healthBar.SetHealth(playerHealth);
         _animator.Play("Take Damage");
         OnPlayerTakeDamage?.Invoke();
-        yield return new WaitForSeconds(0.7f);
-        punchCollider.enabled = true;
-        kickCollider.enabled = true;
+        yield return new WaitForSeconds(1f);
 
         if (playerHealth <= 0)
         {

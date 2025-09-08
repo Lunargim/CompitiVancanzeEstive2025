@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEditorInternal;
 using UnityEngine;
@@ -24,11 +25,25 @@ public class OpponentAI : MonoBehaviour
     public int enemyHealth;
     public HealthBar enemyHealthBar;
 
+    [Header("Stamina")]
+    public const int ENEMYMAXSTAMINA = 5;
+    public int enemyStamina;
+    public StaminaBar staminaBar;
+    private float _timer = 0;
+    private bool _isStunned = false;
+
     public Animator animator;
     public static int damageTypeEnemy;
 
+    public static event Action OnEnemyBlocking;
+
+    [SerializeField] public Collider blockingCollider;
+    [SerializeField] public Collider punchCollider;
+    [SerializeField] public Collider kickCollider;
+
     private void Awake()
     {
+        enemyStamina = ENEMYMAXSTAMINA;
         enemyHealth = ENEMYMAXHEALTH;
         animator = GetComponent<Animator>();
         CreateRandomNumber();
@@ -36,6 +51,7 @@ public class OpponentAI : MonoBehaviour
 
     private void Start()
     {
+        staminaBar.GiveFullStamina(enemyStamina);
         enemyHealthBar.GiveFullHealth(enemyHealth);
     }
 
@@ -62,6 +78,9 @@ public class OpponentAI : MonoBehaviour
                 _lastTimeAttack = 0;
             }
         }
+        RegenStamina();
+        CheckStunned();
+
     }
     void MoveTowardsPlayer()
     {
@@ -71,24 +90,27 @@ public class OpponentAI : MonoBehaviour
     }
     void CreateRandomNumber()
     {
-        _randomNumber = Random.Range(0, attackAnimations.Length);
+        _randomNumber = UnityEngine.Random.Range(0, attackAnimations.Length);
         damageTypeEnemy = _randomNumber;
     }
 
     void PerformAttack(int attackIndex)
     {
-        animator.SetBool("Walk Forward Enemy", false);
-        animator.Play(attackAnimations[attackIndex]);
-        int damage = 0;
-
-        switch (attackIndex)
+        if (!_isStunned)
         {
-            case 0:
-                damage = _normalAttackDamage;
-                break;
-            case 1:
-                damage = _heavyAttackDamage;
-                break;
+            animator.SetBool("Walk Forward Enemy", false);
+            animator.Play(attackAnimations[attackIndex]);
+            int damage = 0;
+
+            switch (attackIndex)
+            {
+                case 0:
+                    damage = _normalAttackDamage;
+                    break;
+                case 1:
+                    damage = _heavyAttackDamage;
+                    break;
+            }
         }
     }
 
@@ -106,8 +128,10 @@ public class OpponentAI : MonoBehaviour
                     takeDamage = _heavyAttackDamage;
                     break;
             }
-            StartCoroutine(TakeDamage(takeDamage));
+
+           StartCoroutine(TakeDamage(takeDamage));
         }
+ 
     }
 
     void PerformBlock(int attackIndex)
@@ -126,6 +150,7 @@ public class OpponentAI : MonoBehaviour
 
     public IEnumerator TakeDamage(int takeDamage)
     {
+
         yield return new WaitForSeconds(0.1f);
 
         //play hit sound;
@@ -143,6 +168,41 @@ public class OpponentAI : MonoBehaviour
     {
         Debug.Log("enemy dead");
     }
+
+    public void RegenStamina()
+    {
+        if (enemyStamina < ENEMYMAXSTAMINA)
+        {
+            if (_timer >= 3f)
+            {
+                enemyStamina++;
+                staminaBar.SetStamina(enemyStamina);
+                _timer = 0;
+            }
+            _timer += Time.deltaTime;
+        }
+    }
+
+    public IEnumerator CheckStunned()
+    {
+        if (enemyStamina <= 0)
+        {
+            BlockMovement();
+            //Play stunned animation
+            _isStunned = true;
+            yield return new WaitForSeconds(2);
+            ResetBlockMovement();
+            enemyStamina = 3;
+            _isStunned = false;
+        }
+    }
+    public void RemoveStamina()
+    {
+        enemyStamina--;
+        staminaBar.SetStamina(enemyStamina);
+    }
+
+
 
     public void OnEnable()
     {
