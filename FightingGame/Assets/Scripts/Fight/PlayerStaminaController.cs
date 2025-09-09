@@ -48,6 +48,7 @@ public class PlayerStaminaController : MonoBehaviour
     }
     public void RemoveStamina()
     {
+        Debug.Log("STAMINA");
         playerStamina--;
         staminaBar.SetStamina(playerStamina);
     }

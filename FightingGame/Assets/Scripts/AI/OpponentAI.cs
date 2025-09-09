@@ -84,8 +84,10 @@ public class OpponentAI : MonoBehaviour
             }
         }
         RegenStamina();
-        CheckStunned();
-
+        if(enemyStamina <= 0)
+        {
+            StartGettingStunned();
+        }
     }
     void MoveTowardsPlayer()
     {
@@ -130,6 +132,7 @@ public class OpponentAI : MonoBehaviour
     {
         if (other.tag == "Punch" || other.tag == "Kick")
         {
+            Debug.Log("Enemyyyyyyy");
             int takeDamage = 0;
             switch (FightingController.attackTypePlayer)
             {
@@ -154,7 +157,6 @@ public class OpponentAI : MonoBehaviour
         blockingCollider.enabled = true;
         yield return new WaitForSeconds(1f);
         blockingCollider.enabled = false;
-
     }
 
     public void BlockMovement()
@@ -202,18 +204,22 @@ public class OpponentAI : MonoBehaviour
         }
     }
 
-    public IEnumerator CheckStunned()
+    public void StartGettingStunned()
     {
-        if (enemyStamina <= 0)
-        {
-            BlockMovement();
-            //Play stunned animation
-            _isStunned = true;
-            yield return new WaitForSeconds(2);
-            ResetBlockMovement();
-            enemyStamina = 3;
-            _isStunned = false;
-        }
+        StartCoroutine(GetStunned());
+    }
+
+    public IEnumerator GetStunned()
+    {
+        RemoveStamina();
+        BlockMovement();
+        animator.Play("Stunned");
+        _isStunned = true;
+        yield return new WaitForSeconds(2);
+        ResetBlockMovement();
+        enemyStamina = 3;
+        _isStunned = false;
+
     }
     public void RemoveStamina()
     {
@@ -237,12 +243,14 @@ public class OpponentAI : MonoBehaviour
     {
         BlockMovementEvent.OnAttackEnemy += BlockMovement;
         BlockMovementEvent.OnEndEnemyAttack += ResetBlockMovement;
+        FightingController.OnBlockBroken += StartGettingStunned;
     }
 
     public void OnDisable()
     {
         BlockMovementEvent.OnAttackEnemy -= BlockMovement;
         BlockMovementEvent.OnEndEnemyAttack -= ResetBlockMovement;
+        FightingController.OnBlockBroken -= StartGettingStunned;
     }
 
 

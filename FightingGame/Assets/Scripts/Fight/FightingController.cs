@@ -19,6 +19,7 @@ public class FightingController : MonoBehaviour
 
     public static event Action OnPlayerTakeDamage;
     public static event Action<int> OnPlayerLosingHealth;
+    public static event Action OnBlockBroken;
 
     public PlayerStaminaController playerStaminaController;
 
@@ -90,21 +91,20 @@ public class FightingController : MonoBehaviour
     {
         if(other.tag == "Punch" || other.tag == "Kick")
         {
+            Debug.Log("Playerrrrr");
             if (_isBlocking && OpponentAI.damageTypeEnemy == 0)
             {
-                Debug.Log("PPPPPPPPPPPPPPPPP");
+                Debug.Log(_punchesBlocked);
                 _punchesBlocked++;
                 if (_punchesBlocked == 2)
                 {
-                    Debug.Log("BLOCKKKKKK");
-                    //l'avversario si stunna
+                    OnBlockBroken?.Invoke();
                     _punchesBlocked = 0;
                 }
 
             }
             if(_isBlocking && OpponentAI.damageTypeEnemy == 1)
             {
-                Debug.Log("STUNNNNNN");
                 StartStun();
                 playerStaminaController.RemoveStamina();
             }
@@ -145,7 +145,7 @@ public class FightingController : MonoBehaviour
     public IEnumerator GetStunned()
     {
         _isStunned = true;
-        
+        _animator.Play("Stunned");
         yield return new WaitForSeconds(2f);
         _isStunned = false;
     }

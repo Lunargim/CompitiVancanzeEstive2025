@@ -903,8 +903,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.29246432
-  m_Center: {x: -0.02480426, y: 0.0846719, z: 0.009999998}
+  m_Radius: 0.33368114
+  m_Center: {x: -0.024804274, y: 0.12588875, z: 0.010000004}
 --- !u!1 &346895838
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,13 +953,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 1238763645}
   _speed: 0.05
-  _attackCoolDown: 1.25
+  _attackCoolDown: 1.5
   attackAnimations:
   - Punch
   - Heavy Kick
   - Block
   _randomNumber: 0
-  attackRadius: 1.5
+  attackRadius: 1.25
   enemyHealth: 0
   enemyHealthBar: {fileID: 7374692536306232766}
   enemyStamina: 0
@@ -1027,10 +1027,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.54196066
+  m_Radius: 0.40723085
   m_Height: 1.4970222
   m_Direction: 1
-  m_Center: {x: -1.5220769e-16, y: 1.4576387, z: 0.041960657}
+  m_Center: {x: 4.3015107e-16, y: 1.4576387, z: -0.092769176}
 --- !u!54 &346895844
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1077,8 +1077,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0238829, y: 2.183354, z: 0.49012214}
-  m_Center: {x: -0.011941433, y: 1.3695121, z: 0.51090026}
+  m_Size: {x: 1.0238829, y: 2.183354, z: 0.25796938}
+  m_Center: {x: -0.011941433, y: 1.3695121, z: 0.39482382}
 --- !u!1 &356262823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,8 +1440,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.13000494
-  m_Center: {x: 0.00000067550155, y: 0.04, z: -0.01}
+  m_Radius: 0.16987088
+  m_Center: {x: 0.00000066038973, y: 0.07986608, z: -0.0100000035}
 --- !u!1 &410459053
 GameObject:
   m_ObjectHideFlags: 0
@@ -3181,10 +3181,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4783265
+  m_Radius: 0.33150932
   m_Height: 2.127307
   m_Direction: 1
-  m_Center: {x: 0.11218977, y: 1.3572023, z: 0.08759087}
+  m_Center: {x: -0.027421892, y: 1.3572023, z: 0.009748846}
 --- !u!114 &1238763651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3197,7 +3197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d7cc2120beb2d418b201d22c32a2c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackCoolDown: 0.5
+  _attackCoolDown: 0.75
   attackAnimations:
   - Punch
   - Heavy Kick
@@ -3221,7 +3221,7 @@ Animation:
   - {fileID: 7400000, guid: 4e7d434fc83de7744b4060cccee48ba4, type: 2}
   - {fileID: 7400000, guid: 568f708ddc94e7c4a8caaf4e47ccd518, type: 2}
   - {fileID: 7400000, guid: 8d3e6f677845fcb4faf2fa9bbc98be49, type: 2}
-  - {fileID: 7400000, guid: 951f97f513c95b8439cde062411cf44a, type: 2}
+  - {fileID: 7400000, guid: 966bb1226fc6d824db37be40e6855b4a, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -3313,8 +3313,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0238829, y: 2.183354, z: 0.49012214}
-  m_Center: {x: -0.011941433, y: 1.3695121, z: 0.51090026}
+  m_Size: {x: 1.0238829, y: 2.183354, z: 0.2830819}
+  m_Center: {x: -0.011941433, y: 1.3695121, z: 0.4329286}
 --- !u!1 &1266920893
 GameObject:
   m_ObjectHideFlags: 0
