@@ -3120,7 +3120,7 @@ MonoBehaviour:
   enemyPos: {fileID: 346895842}
   _speed: 0.1
   _radiusMax: 12
-  _radiusMin: 1.1
+  _radiusMin: 1.5
   _blockMovement: 0
 --- !u!95 &1238763648
 Animator:
