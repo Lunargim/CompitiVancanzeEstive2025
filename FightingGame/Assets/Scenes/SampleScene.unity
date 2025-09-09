@@ -953,7 +953,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 1238763645}
   _speed: 0.05
-  _attackCoolDown: 0.75
+  _attackCoolDown: 1.25
   attackAnimations:
   - Punch
   - Heavy Kick
@@ -968,6 +968,7 @@ MonoBehaviour:
   blockingCollider: {fileID: 346895845}
   punchCollider: {fileID: 1581406108}
   kickCollider: {fileID: 345635900}
+  bodyCollider: {fileID: 346895843}
 --- !u!95 &346895841
 Animator:
   serializedVersion: 7
@@ -3205,6 +3206,7 @@ MonoBehaviour:
   blockingCollider: {fileID: 1238763657}
   punchCollider: {fileID: 1812213423}
   kickCollider: {fileID: 410352121}
+  bodyCollider: {fileID: 1238763650}
 --- !u!111 &1238763652
 Animation:
   m_ObjectHideFlags: 0
@@ -3219,6 +3221,7 @@ Animation:
   - {fileID: 7400000, guid: 4e7d434fc83de7744b4060cccee48ba4, type: 2}
   - {fileID: 7400000, guid: 568f708ddc94e7c4a8caaf4e47ccd518, type: 2}
   - {fileID: 7400000, guid: 8d3e6f677845fcb4faf2fa9bbc98be49, type: 2}
+  - {fileID: 7400000, guid: 951f97f513c95b8439cde062411cf44a, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
