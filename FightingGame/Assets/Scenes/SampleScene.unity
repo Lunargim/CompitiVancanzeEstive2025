@@ -959,7 +959,7 @@ MonoBehaviour:
   - Heavy Kick
   - Block
   _randomNumber: 0
-  attackRadius: 1.25
+  attackRadius: 1.4
   enemyHealth: 0
   enemyHealthBar: {fileID: 7374692536306232766}
   enemyStamina: 0

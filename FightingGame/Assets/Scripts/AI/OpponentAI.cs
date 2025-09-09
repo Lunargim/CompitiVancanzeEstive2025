@@ -19,6 +19,8 @@ public class OpponentAI : MonoBehaviour
     public int _randomNumber;
     [SerializeField] public float attackRadius = 2f;
     private bool _isTakingDamage = false;
+    private bool _isBlocking = false;
+    private int _punchesBlocked = 0;
 
     [Header("Health")]
     public const int ENEMYMAXHEALTH = 10;
@@ -36,6 +38,7 @@ public class OpponentAI : MonoBehaviour
     public static int damageTypeEnemy;
 
     public static event Action OnEnemyBlocking;
+    public static event Action OnEnemyBlockBroken;
 
     [SerializeField] public Collider blockingCollider;
     [SerializeField] public Collider punchCollider;
@@ -132,7 +135,6 @@ public class OpponentAI : MonoBehaviour
     {
         if (other.tag == "Punch" || other.tag == "Kick")
         {
-            Debug.Log("Enemyyyyyyy");
             int takeDamage = 0;
             switch (FightingController.attackTypePlayer)
             {
@@ -147,6 +149,20 @@ public class OpponentAI : MonoBehaviour
             {
                 StartCoroutine(TakeDamage(takeDamage));
             }
+            if(_isBlocking && FightingController.attackTypePlayer == 0)
+            {
+                _punchesBlocked++;
+                if (_punchesBlocked == 2)
+                {
+                    OnEnemyBlockBroken?.Invoke();
+                    _punchesBlocked = 0;
+                }
+            }
+            if (_isBlocking && OpponentAI.damageTypeEnemy == 1)
+            {
+                StartGettingStunned();
+                RemoveStamina();
+            }
         }
  
     }
@@ -154,8 +170,10 @@ public class OpponentAI : MonoBehaviour
     IEnumerator PerformBlock()
     {
         UnenableFightingColliders();
+        _isBlocking = true;
         blockingCollider.enabled = true;
         yield return new WaitForSeconds(1f);
+        _isBlocking = false;
         blockingCollider.enabled = false;
     }
 
