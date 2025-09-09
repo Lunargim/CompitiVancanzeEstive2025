@@ -25,6 +25,7 @@ public class FightingController : MonoBehaviour
     [SerializeField] public Collider blockingCollider;
     [SerializeField] public Collider punchCollider;
     [SerializeField] public Collider kickCollider;
+    [SerializeField] public Collider bodyCollider;
 
 
     public void Start()
@@ -34,6 +35,7 @@ public class FightingController : MonoBehaviour
         blockingCollider.enabled = false;
         punchCollider.enabled = false;
         kickCollider.enabled = false;
+        bodyCollider.enabled = true;
 
     }
     public void Update()
@@ -90,14 +92,19 @@ public class FightingController : MonoBehaviour
         {
             if (_isBlocking && OpponentAI.damageTypeEnemy == 0)
             {
-                if(_punchesBlocked == 2)
+                Debug.Log("PPPPPPPPPPPPPPPPP");
+                _punchesBlocked++;
+                if (_punchesBlocked == 2)
                 {
+                    Debug.Log("BLOCKKKKKK");
+                    //l'avversario si stunna
                     _punchesBlocked = 0;
                 }
 
             }
             if(_isBlocking && OpponentAI.damageTypeEnemy == 1)
             {
+                Debug.Log("STUNNNNNN");
                 StartStun();
                 playerStaminaController.RemoveStamina();
             }
@@ -120,10 +127,12 @@ public class FightingController : MonoBehaviour
     }
     public IEnumerator PerformBlock(int attackIndex)
     {
+        bodyCollider.enabled = false;
         blockingCollider.enabled = true;
         _isBlocking = true;
         _animator.Play(attackAnimations[attackIndex]);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.25f);
+        bodyCollider.enabled = true;
         blockingCollider.enabled = false;
         _isBlocking = false;
     }
@@ -136,6 +145,7 @@ public class FightingController : MonoBehaviour
     public IEnumerator GetStunned()
     {
         _isStunned = true;
+        
         yield return new WaitForSeconds(2f);
         _isStunned = false;
     }

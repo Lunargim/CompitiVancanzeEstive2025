@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class OpponentAI : MonoBehaviour
@@ -19,6 +18,7 @@ public class OpponentAI : MonoBehaviour
     private float _lastTimeAttack = 0;
     public int _randomNumber;
     [SerializeField] public float attackRadius = 2f;
+    private bool _isTakingDamage = false;
 
     [Header("Health")]
     public const int ENEMYMAXHEALTH = 10;
@@ -40,6 +40,7 @@ public class OpponentAI : MonoBehaviour
     [SerializeField] public Collider blockingCollider;
     [SerializeField] public Collider punchCollider;
     [SerializeField] public Collider kickCollider;
+    [SerializeField] public Collider bodyCollider;
 
     private void Awake()
     {
@@ -47,6 +48,10 @@ public class OpponentAI : MonoBehaviour
         enemyHealth = ENEMYMAXHEALTH;
         animator = GetComponent<Animator>();
         CreateRandomNumber();
+        blockingCollider.enabled = false;
+        punchCollider.enabled = false;
+        kickCollider.enabled = false;
+        bodyCollider.enabled = true;
     }
 
     private void Start()
@@ -74,7 +79,7 @@ public class OpponentAI : MonoBehaviour
             if (_lastTimeAttack > _attackCoolDown)
             {
                 CreateRandomNumber();
-                PerformAttack(_randomNumber);
+                StartCoroutine(PerformAttack(_randomNumber));
                 _lastTimeAttack = 0;
             }
         }
@@ -94,11 +99,12 @@ public class OpponentAI : MonoBehaviour
         damageTypeEnemy = _randomNumber;
     }
 
-    void PerformAttack(int attackIndex)
+    IEnumerator PerformAttack(int attackIndex)
     {
         if (!_isStunned)
         {
             animator.SetBool("Walk Forward Enemy", false);
+            EnableFightingColliders();
             animator.Play(attackAnimations[attackIndex]);
             int damage = 0;
 
@@ -112,6 +118,12 @@ public class OpponentAI : MonoBehaviour
                     break;
             }
         }
+        if(attackIndex == 2)
+        {
+            PerformBlock();
+        }
+        yield return new WaitForSeconds(1f); 
+        UnenableFightingColliders();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -128,15 +140,21 @@ public class OpponentAI : MonoBehaviour
                     takeDamage = _heavyAttackDamage;
                     break;
             }
-
-           StartCoroutine(TakeDamage(takeDamage));
+            if (!_isTakingDamage)
+            {
+                StartCoroutine(TakeDamage(takeDamage));
+            }
         }
  
     }
 
-    void PerformBlock(int attackIndex)
+    IEnumerator PerformBlock()
     {
-        animator.Play(attackAnimations[attackIndex]);
+        UnenableFightingColliders();
+        blockingCollider.enabled = true;
+        yield return new WaitForSeconds(1f);
+        blockingCollider.enabled = false;
+
     }
 
     public void BlockMovement()
@@ -150,7 +168,7 @@ public class OpponentAI : MonoBehaviour
 
     public IEnumerator TakeDamage(int takeDamage)
     {
-
+        _isTakingDamage = true;
         yield return new WaitForSeconds(0.1f);
 
         //play hit sound;
@@ -158,6 +176,7 @@ public class OpponentAI : MonoBehaviour
         enemyHealthBar.SetHealth(enemyHealth);
         animator.Play("Take Damage");
         ResetBlockMovement();
+        _isTakingDamage = false;
 
         if (enemyHealth < 0)
         {
@@ -202,7 +221,17 @@ public class OpponentAI : MonoBehaviour
         staminaBar.SetStamina(enemyStamina);
     }
 
+    public void EnableFightingColliders()
+    {
+        punchCollider.enabled = true;
+        kickCollider.enabled = true;
+    }
 
+    public void UnenableFightingColliders()
+    {
+        punchCollider.enabled = false;
+        kickCollider.enabled = false;
+    }
 
     public void OnEnable()
     {
