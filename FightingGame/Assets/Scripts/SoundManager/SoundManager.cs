@@ -13,9 +13,9 @@ public class SoundManager : MonoBehaviour
         PUNCH,
         KICK,
         HITTING,
+        BLOCK,
         FOOTSTEPS,
         STUNNED,
-        HUMANFATIGUE,
         MUSIC,
     }
 
