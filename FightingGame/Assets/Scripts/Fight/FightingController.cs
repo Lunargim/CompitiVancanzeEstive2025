@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static SoundManager;
 
 public class FightingController : MonoBehaviour
 {
@@ -66,6 +67,16 @@ public class FightingController : MonoBehaviour
             if (_lastTimeAttack > _attackCoolDown)
             {
                 _animator.Play(attackAnimations[attackIndex]);
+
+                if (attackIndex == 0)
+                {
+                    SoundManager.PlaySound(SoundType.PUNCH, 1f);
+                }
+                if (attackIndex == 1)
+                {
+                    SoundManager.PlaySound(SoundType.KICK, 1f);
+                }
+
                 int damage = 0;
 
                 switch (attackIndex)
@@ -94,6 +105,8 @@ public class FightingController : MonoBehaviour
             if (_isBlocking && OpponentAI.damageTypeEnemy == 0)
             {
                 _punchesBlocked++;
+                SoundManager.PlaySound(SoundType.HITTING, 1f);
+
                 if (_punchesBlocked == 2)
                 {
                     OnBlockBroken?.Invoke();
@@ -129,6 +142,7 @@ public class FightingController : MonoBehaviour
         blockingCollider.enabled = true;
         _isBlocking = true;
         _animator.Play(attackAnimations[attackIndex]);
+        SoundManager.PlaySound(SoundType.BLOCK, 1f);
         yield return new WaitForSeconds(1.25f);
         bodyCollider.enabled = true;
         blockingCollider.enabled = false;
@@ -142,9 +156,9 @@ public class FightingController : MonoBehaviour
 
     public IEnumerator GetStunned()
     {
-        Debug.Log("AAAAAAAAAA");
         _isStunned = true;
         _animator.Play("Stunned");
+        SoundManager.PlaySound(SoundType.STUNNED, 1f);
         yield return new WaitForSeconds(2f);
         _isStunned = false;
     }

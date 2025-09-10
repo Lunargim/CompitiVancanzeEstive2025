@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static SoundManager;
 
 public class MovementController : MonoBehaviour
 {
@@ -101,7 +102,6 @@ public class MovementController : MonoBehaviour
     public IEnumerator GetStunned()
     {
         BlockMovement();
-        //Play stunned animation
         yield return new WaitForSeconds(2f);
         ResetBlockMovement();
     }

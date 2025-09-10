@@ -22,6 +22,7 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        SoundManager.PlaySound(SoundType.MUSIC, 0.5f);
     }
 
     private void Awake()

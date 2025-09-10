@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static SoundManager;
 
 public class OpponentAI : MonoBehaviour
 {
@@ -111,7 +112,15 @@ public class OpponentAI : MonoBehaviour
             animator.SetBool("Walk Forward Enemy", false);
             EnableFightingColliders();
             animator.Play(attackAnimations[attackIndex]);
-            int damage = 0;
+            if (attackIndex == 0)
+            {
+                SoundManager.PlaySound(SoundType.PUNCH, 1f);
+            }
+            if(attackIndex == 1)
+            {
+                SoundManager.PlaySound(SoundType.KICK, 1f);
+            }
+                int damage = 0;
 
             switch (attackIndex)
             {
@@ -152,9 +161,11 @@ public class OpponentAI : MonoBehaviour
             if(_isBlocking && FightingController.attackTypePlayer == 0)
             {
                 _punchesBlocked++;
+                SoundManager.PlaySound(SoundType.BLOCK, 1f);
                 if (_punchesBlocked == 2)
                 {
                     OnEnemyBlockBroken?.Invoke();
+                    SoundManager.PlaySound(SoundType.BLOCK, 1f);
                     _punchesBlocked = 0;
                 }
             }
@@ -190,7 +201,7 @@ public class OpponentAI : MonoBehaviour
         _isTakingDamage = true;
         yield return new WaitForSeconds(0.1f);
 
-        //play hit sound;
+        SoundManager.PlaySound(SoundType.HITTING, 1f);
         enemyHealth -= takeDamage;
         enemyHealthBar.SetHealth(enemyHealth);
         animator.Play("Take Damage");
@@ -231,6 +242,7 @@ public class OpponentAI : MonoBehaviour
         RemoveStamina();
         BlockMovement();
         animator.Play("Stunned");
+        SoundManager.PlaySound(SoundType.STUNNED, 1f);
         _isStunned = true;
         yield return new WaitForSeconds(2);
         ResetBlockMovement();
