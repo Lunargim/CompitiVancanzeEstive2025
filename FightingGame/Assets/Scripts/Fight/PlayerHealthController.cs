@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealthController : MonoBehaviour
 {
@@ -42,7 +44,8 @@ public class PlayerHealthController : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("player dead");
+        EndMenu.enemyWon = true;
+        SceneManager.LoadScene("EndGameMenu");
     }
 
     public void OnEnable()

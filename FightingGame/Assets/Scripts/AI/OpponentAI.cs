@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static SoundManager;
 
 public class OpponentAI : MonoBehaviour
@@ -215,7 +216,8 @@ public class OpponentAI : MonoBehaviour
     }
     public void Die()
     {
-        Debug.Log("enemy dead");
+        EndMenu.playerWon = true;
+        SceneManager.LoadScene("EndGameMenu");
     }
 
     public void RegenStamina()
