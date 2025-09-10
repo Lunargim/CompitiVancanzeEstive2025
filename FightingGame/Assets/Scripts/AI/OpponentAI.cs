@@ -164,7 +164,6 @@ public class OpponentAI : MonoBehaviour
                 RemoveStamina();
             }
         }
- 
     }
 
     IEnumerator PerformBlock()
